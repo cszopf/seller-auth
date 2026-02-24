@@ -1,5 +1,5 @@
 {
-  "name": "REA Smart Transaction ONE - Seller",
+  "name": "Seller Auth V1",
   "description": "A premium, white-label real estate transaction and post-closing ownership protection platform branded for World Class Title (WCT).",
   "requestFramePermissions": [
     "camera"

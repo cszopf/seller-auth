@@ -14,35 +14,44 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ brand, agent, children, propertyAddress, role, setRole }) => {
   return (
-    <div className="min-h-screen bg-white flex flex-col md:flex-row relative">
-      {/* Sidebar - Branding & Navigation Only */}
-      <aside 
-        className="w-full md:w-72 bg-slate-50 border-b md:border-b-0 md:border-r border-slate-200 flex flex-col p-6 pt-12 md:p-8 shrink-0 z-20"
-      >
-        <div className="mb-8 text-center md:text-left">
-          <h1 
-            className="font-header uppercase-tracking-150 text-xl md:text-2xl mb-1" 
-            style={{ color: brand.primaryColor }}
-          >
-            {brand.logoName}
-          </h1>
-          <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-            {role === UserRole.SELLER ? 'Transaction Center' : 'Agent Transparency Portal'}
-          </p>
-          <div className="h-[1px] w-full bg-slate-200 my-6"></div>
-          <p className="text-xs font-bold text-slate-800 flex items-center justify-center md:justify-start gap-1.5">
-            <MapPin className="h-3.5 w-3.5 text-slate-400" />
-            <span className="truncate">{propertyAddress.split('|')[0]}</span>
-          </p>
-        </div>
-      </aside>
+    <div className="min-h-screen bg-white flex flex-col relative">
+      {/* Prototype Banner */}
+      <div className="bg-slate-50 border-b border-slate-200 py-1.5 px-6 text-center z-[100]">
+        <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">
+          Prototype Experience: Seller Perspective
+        </p>
+      </div>
 
-      {/* Main Content Area */}
-      <main className="flex-1 min-w-0 bg-white md:bg-transparent overflow-x-hidden">
-        <div className="max-w-4xl mx-auto p-6 md:p-12 lg:p-20 pb-64 md:pb-64">
-          {children}
-        </div>
-      </main>
+      <div className="flex flex-col md:flex-row flex-1">
+        {/* Sidebar - Branding & Navigation Only */}
+        <aside 
+          className="w-full md:w-72 bg-slate-50 border-b md:border-b-0 md:border-r border-slate-200 flex flex-col p-6 pt-12 md:p-8 shrink-0 z-20"
+        >
+          <div className="mb-8 text-center md:text-left">
+            <h1 
+              className="font-header uppercase-tracking-150 text-xl md:text-2xl mb-1" 
+              style={{ color: brand.primaryColor }}
+            >
+              {brand.logoName}
+            </h1>
+            <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+              {role === UserRole.SELLER ? 'Transaction Center' : 'Agent Transparency Portal'}
+            </p>
+            <div className="h-[1px] w-full bg-slate-200 my-6"></div>
+            <p className="text-xs font-bold text-slate-800 flex items-center justify-center md:justify-start gap-1.5">
+              <MapPin className="h-3.5 w-3.5 text-slate-400" />
+              <span className="truncate">{propertyAddress.split('|')[0]}</span>
+            </p>
+          </div>
+        </aside>
+
+        {/* Main Content Area */}
+        <main className="flex-1 min-w-0 bg-white md:bg-transparent overflow-x-hidden">
+          <div className="max-w-4xl mx-auto p-6 md:p-12 lg:p-20 pb-64 md:pb-64">
+            {children}
+          </div>
+        </main>
+      </div>
       
       {/* Global Bottom Footer - Agent & Role Toggle */}
       <footer className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 z-[90] shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
