@@ -28,8 +28,9 @@ export enum TransactionStep {
   SELLER_AUTHORIZATION = 2,
   PAYOFFS_WIRE = 3,
   REMAINING_INFO = 4,
-  REVIEW_CONFIRM = 5,
-  SUCCESS = 6
+  FUTURE_ROADMAP = 5,
+  REVIEW_CONFIRM = 6,
+  SUCCESS = 7
 }
 
 export interface AgentInfo {

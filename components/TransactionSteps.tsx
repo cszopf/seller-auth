@@ -18,7 +18,9 @@ import {
   Banknote,
   Mail,
   Phone,
-  User
+  User,
+  Clock,
+  Download
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -42,7 +44,7 @@ const StepHeader: React.FC<{
 }> = ({ title, subtitle, brand, stepNum, preference }) => (
   <div className="mb-6 md:mb-12">
     <div className="flex items-center gap-3 mb-2 md:mb-4">
-      <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] px-2.5 md:px-3 py-1 rounded-full text-white" style={{ backgroundColor: brand.accentColor }}>Step {stepNum} of 7</span>
+      <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] px-2.5 md:px-3 py-1 rounded-full text-white" style={{ backgroundColor: brand.accentColor }}>Step {stepNum} of 8</span>
       <span className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Seller Onboarding</span>
     </div>
     <h2 className="font-header text-xl md:text-4xl mb-1 md:mb-4 leading-tight" style={{ color: brand.primaryColor }}>
@@ -154,7 +156,7 @@ export const TransactionContent: React.FC<StepProps> = ({
       confetti({
         particleCount: 150,
         spread: 70,
-        origin: { y: 0.6 },
+        origin: { y: 0.3 },
         colors: [brand.primaryColor, brand.accentColor, '#ffffff']
       });
     }
@@ -248,30 +250,76 @@ export const TransactionContent: React.FC<StepProps> = ({
             brand={brand} 
             preference={preference}
           />
-          <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl mb-8">
-            <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="w-10 h-10 bg-[#B9D9EB]/20 rounded-xl flex items-center justify-center text-[#004EA8] shrink-0">
-                  <FileText className="w-5 h-5" />
+
+          <div className="space-y-6 mb-8">
+            {/* Legal & Identity Section */}
+            <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl">
+              <h4 className="font-header text-lg text-slate-900 mb-6 flex items-center gap-2">
+                <User className="w-5 h-5 text-[#004EA8]" />
+                Legal & Identity
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Social Security Number</label>
+                  <div className="relative">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                    <input type="password" placeholder="XXX-XX-XXXX" className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004EA8] focus:border-transparent outline-none transition-all" />
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Payoff Authorization</h4>
-                  <p className="text-xs text-slate-500 leading-relaxed mt-1">By continuing, you authorize us to contact your mortgage lender(s) to obtain final payoff figures for the closing date.</p>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Legal Marital Status</label>
+                  <select className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004EA8] focus:border-transparent outline-none transition-all appearance-none">
+                    <option>Unmarried</option>
+                    <option>Married</option>
+                    <option>Divorced</option>
+                    <option>Widowed</option>
+                  </select>
                 </div>
-              </div>
-              <div className="flex gap-4">
-                <div className="w-10 h-10 bg-[#B9D9EB]/20 rounded-xl flex items-center justify-center text-[#004EA8] shrink-0">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Lien Clearing Consent</h4>
-                  <p className="text-xs text-slate-500 leading-relaxed mt-1">You authorize the clearing of any discovered judgments or liens that may affect the clear transfer of title.</p>
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Additional Seller on Title?</label>
+                  <div className="flex gap-4 mt-2">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name="add-seller" className="w-4 h-4 text-[#004EA8]" defaultChecked />
+                      <span className="text-sm font-medium text-slate-700">Yes, NOT my spouse</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name="add-seller" className="w-4 h-4 text-[#004EA8]" />
+                      <span className="text-sm font-medium text-slate-700">Yes, my spouse</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name="add-seller" className="w-4 h-4 text-[#004EA8]" />
+                      <span className="text-sm font-medium text-slate-700">No</span>
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="mt-10 p-6 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
-              <input type="checkbox" id="auth-check" className="w-5 h-5 rounded border-slate-300 text-[#004EA8] focus:ring-[#004EA8]" />
-              <label htmlFor="auth-check" className="text-xs font-bold text-slate-700">I authorize World Class Title to act as my settlement agent for this transaction.</label>
+
+            <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl">
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 bg-[#B9D9EB]/20 rounded-xl flex items-center justify-center text-[#004EA8] shrink-0">
+                    <FileText className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm">Payoff Authorization</h4>
+                    <p className="text-xs text-slate-500 leading-relaxed mt-1">By continuing, you authorize us to contact your mortgage lender(s) to obtain final payoff figures for the closing date.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 bg-[#B9D9EB]/20 rounded-xl flex items-center justify-center text-[#004EA8] shrink-0">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm">Lien Clearing Consent</h4>
+                    <p className="text-xs text-slate-500 leading-relaxed mt-1">You authorize the clearing of any discovered judgments or liens that may affect the clear transfer of title.</p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-10 p-6 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
+                <input type="checkbox" id="auth-check" className="w-5 h-5 rounded border-slate-300 text-[#004EA8] focus:ring-[#004EA8]" />
+                <label htmlFor="auth-check" className="text-xs font-bold text-slate-700">I authorize World Class Title to act as my settlement agent for this transaction.</label>
+              </div>
             </div>
           </div>
           <TransparencyNote 
@@ -409,49 +457,6 @@ export const TransactionContent: React.FC<StepProps> = ({
           />
           
           <div className="space-y-6 mb-8">
-            {/* Legal & Identity Section */}
-            <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl">
-              <h4 className="font-header text-lg text-slate-900 mb-6 flex items-center gap-2">
-                <User className="w-5 h-5 text-[#004EA8]" />
-                Legal & Identity
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Social Security Number</label>
-                  <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
-                    <input type="password" placeholder="XXX-XX-XXXX" className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004EA8] focus:border-transparent outline-none transition-all" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Legal Marital Status</label>
-                  <select className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004EA8] focus:border-transparent outline-none transition-all appearance-none">
-                    <option>Unmarried</option>
-                    <option>Married</option>
-                    <option>Divorced</option>
-                    <option>Widowed</option>
-                  </select>
-                </div>
-                <div className="space-y-2 md:col-span-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Additional Seller on Title?</label>
-                  <div className="flex gap-4 mt-2">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="add-seller" className="w-4 h-4 text-[#004EA8]" defaultChecked />
-                      <span className="text-sm font-medium text-slate-700">Yes, NOT my spouse</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="add-seller" className="w-4 h-4 text-[#004EA8]" />
-                      <span className="text-sm font-medium text-slate-700">Yes, my spouse</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="add-seller" className="w-4 h-4 text-[#004EA8]" />
-                      <span className="text-sm font-medium text-slate-700">No</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* Utilities & HOA Section */}
             <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl">
               <h4 className="font-header text-lg text-slate-900 mb-6 flex items-center gap-2">
@@ -481,6 +486,41 @@ export const TransactionContent: React.FC<StepProps> = ({
                     <option>Monthly</option>
                     <option>Quarterly</option>
                   </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Prior Policy & Reissue Discount Section */}
+            <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl">
+              <div className="flex items-center justify-between mb-6">
+                <h4 className="font-header text-lg text-slate-900 flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-[#004EA8]" />
+                  Prior Policy & Reissue Discount
+                </h4>
+                <span className="text-[8px] font-black bg-emerald-100 text-emerald-700 px-2 py-1 rounded uppercase tracking-widest border border-emerald-200">Discount Applied</span>
+              </div>
+              
+              <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-emerald-500 shrink-0 shadow-sm">
+                    <CheckCircle2 className="w-5 h-5" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-bold text-slate-900 mb-1">We've located your prior title policy!</p>
+                    <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                      Providing a prior title insurance policy allows us to offer you a <strong>Reissue Rate</strong> discount on your new policy. Since we already have this on file, your discount has been automatically applied to your closing statement.
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-black text-slate-700 uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm">
+                        <Download className="w-3.5 h-3.5" />
+                        Download Prior Deed
+                      </button>
+                      <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-black text-slate-700 uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm">
+                        <FileText className="w-3.5 h-3.5" />
+                        View Prior Policy
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -518,11 +558,91 @@ export const TransactionContent: React.FC<StepProps> = ({
         </div>
       );
 
-    case TransactionStep.REVIEW_CONFIRM:
+    case TransactionStep.FUTURE_ROADMAP:
       return (
         <div className="animate-in fade-in slide-in-from-bottom-2 duration-700">
           <StepHeader 
             stepNum={6}
+            title="Your Transaction Roadmap" 
+            subtitle="Since your property isn't in contract yet, these steps are currently locked. Here's what to expect once we move forward." 
+            brand={brand} 
+            preference={preference}
+          />
+          
+          <div className="space-y-4 mb-8">
+            {[
+              { 
+                title: "Title Search & Examination", 
+                desc: "Our Smart AI Search has already completed an initial scan of the property history and is being reviewed by our examiners. A full, comprehensive search will be finalized immediately after contract execution.",
+                expectation: "Smart AI Search active; Full search pending contract."
+              },
+              { 
+                title: "Closing Disclosure Review", 
+                desc: "You'll receive a detailed breakdown of all costs and credits for your final approval.",
+                expectation: "Usually 3-5 days before your closing date."
+              },
+              { 
+                title: "Signing Appointment", 
+                desc: "We'll coordinate a convenient time for you to sign the final documents, either in-person or via mobile notary.",
+                expectation: "Scheduled once the buyer's lender gives the 'Clear to Close'."
+              },
+              { 
+                title: "Funding & Disbursement", 
+                desc: "The final step where funds are transferred and you officially close on your sale.",
+                expectation: "Occurs on the day of closing once all documents are recorded."
+              }
+            ].map((item, idx) => (
+              <div key={idx} className="p-6 bg-slate-50 border border-slate-200 rounded-3xl opacity-60 grayscale relative overflow-hidden group">
+                <div className="absolute top-4 right-4">
+                  <Lock className="w-4 h-4 text-slate-400" />
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-300 shrink-0 shadow-sm">
+                    <span className="text-xs font-black">{idx + 1}</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm mb-1">{item.title}</h4>
+                    <p className="text-xs text-slate-500 leading-relaxed mb-2">{item.desc}</p>
+                    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-slate-200/50 rounded text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                      <Clock className="w-3 h-3" />
+                      Expectation: {item.expectation}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="p-6 bg-blue-50 border border-blue-100 rounded-3xl mb-8">
+            <div className="flex gap-4">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[#004EA8] shrink-0 shadow-sm">
+                <Info className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-[#004EA8] text-sm mb-1">Proactive Updates</h4>
+                <p className="text-xs text-blue-700 leading-relaxed">
+                  You don't need to do anything for these steps right now. We'll automatically notify you via SMS and email the moment any of these milestones become active.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <TransparencyNote 
+            brand={brand}
+            preference={preference}
+            currentProcess="Milestone Planning. Mapping out the post-contract journey for your specific property."
+            duration="Informational"
+            behindTheScenes="These steps are standardized based on Ohio real estate law and WCT's best-in-class processing standards."
+          />
+          <NavActions onNext={onNext} onBack={onBack} brand={brand} nextLabel="Got it, Continue" />
+        </div>
+      );
+
+    case TransactionStep.REVIEW_CONFIRM:
+      return (
+        <div className="animate-in fade-in slide-in-from-bottom-2 duration-700">
+          <StepHeader 
+            stepNum={7}
             title="Review & Confirm" 
             subtitle="Please review your information before we finalize your onboarding." 
             brand={brand} 
